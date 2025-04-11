@@ -14,6 +14,8 @@ def home():
 openai.api_key = "GROQ_API_KEY"
 openai.api_base = "https://api.groq.com/openai/v1"
 
+print("Groq API Key:", openai.api_key)  # Log the key to check if it's loaded properly
+
 @app.route("/api/roast", methods=["POST"])
 def roast_subject():
     data = request.get_json()
