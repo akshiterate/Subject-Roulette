@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)  # allow frontend to talk to this backend
 
 # Groq API setup
-openai.api_key = "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"
+openai.api_key = "GROQ_API_KEY"
 openai.api_base = "https://api.groq.com/openai/v1"
 
 @app.route("/api/roast", methods=["POST"])
