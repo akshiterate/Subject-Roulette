@@ -3,6 +3,11 @@ import openai
 import random
 from flask_cors import CORS
 
+@app.route("/", methods=["GET"])
+def home():
+    return "🎡 Subject Roast API is running!"
+
+
 app = Flask(__name__)
 CORS(app)  # allow frontend to talk to this backend
 
