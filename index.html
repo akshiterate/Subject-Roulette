@@ -143,7 +143,7 @@
           document.getElementById("result").textContent = `Subject: ${selected}`;
 
           // API call
-          fetch('http://localhost:5000/api/roast', {
+          fetch('https://subject-roulette.onrender.com', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ subject: selected })
