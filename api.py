@@ -14,7 +14,15 @@ def home():
 openai.api_key = "GROQ_API_KEY"
 openai.api_base = "https://api.groq.com/openai/v1"
 
-print("Groq API Key:", openai.api_key)  # Log the key to check if it's loaded properly
+# Setup logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Retrieve the API key from the environment variable
+openai.api_key = os.environ.get("GROQ_API_KEY")
+
+# Log the API key (for debugging purposes only, remove after checking)
+logger.info("Groq API Key: %s", openai.api_key)  # This will log the API key
 
 @app.route("/api/roast", methods=["POST"])
 def roast_subject():
