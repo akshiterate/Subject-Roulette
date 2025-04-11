@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+import os
 import openai
 import random
 from flask_cors import CORS
