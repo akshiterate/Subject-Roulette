@@ -17,6 +17,7 @@ openai.api_base = "https://api.groq.com/openai/v1"
 @app.route("/api/roast", methods=["POST"])
 def roast_subject():
     data = request.get_json()
+    print("Received:", data)
     subject = data.get("subject")
 
     if not subject:
