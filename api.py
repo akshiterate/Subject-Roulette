@@ -4,7 +4,7 @@ import openai
 import random
 from flask_cors import CORS
 import logging
-from dotenv import load_dotenv
+
 
 app = Flask(__name__)
 CORS(app)  # allow frontend to talk to this backend
