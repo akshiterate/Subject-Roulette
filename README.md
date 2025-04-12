@@ -24,7 +24,7 @@ Access it here: [Subject-Roulette](https://sublette.netlify.app)
 Returns a welcome message confirming that the Subject Roast API is running.
 
 ### `POST /api/roast`
-Generates a roast based on the provided subject.
+Generates a motivational line based on the provided subject.
 
 - **Request Body**:
   ```json
