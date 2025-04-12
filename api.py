@@ -4,6 +4,7 @@ import openai
 import random
 from flask_cors import CORS
 import logging
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 CORS(app)  # allow frontend to talk to this backend
@@ -13,7 +14,8 @@ def home():
     return "🎡 Subject Roast API is running!"
 
 # Groq API setup
-openai.api_key = "GROQ_API_KEY"
+
+openai.api_key = os.environ.get("GROQ_API_KEY")
 openai.api_base = "https://api.groq.com/openai/v1"
 
 # Setup logging
