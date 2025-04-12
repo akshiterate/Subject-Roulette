@@ -1,4 +1,4 @@
-# Subject Roast Roulette API
+# Subject Roulette API
 
 ## Description:
 Subject Roast Roulette API is a lighthearted and humorous backend service designed to motivate students based on the subjects they have to study. The API takes the name of an subject, processes it with OpenAI’s Groq-powered AI, and generates motivational lines. Whether it's a tough, boring, or frustrating subject, this API provides a dark and brutally honest motivational lines.
