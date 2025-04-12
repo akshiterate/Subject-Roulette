@@ -1,42 +1,69 @@
 body {
-    background-color: #ffffff;
-    font-family: "Comic Sans MS", cursive, sans-serif;
-    text-align: center;
-    padding-top: 30px;
-  }
-  
-  canvas {
-    margin: 20px auto;
-    display: block;
-    background-color: rgb(255, 0, 0);
-    border: 10px dashed #333;
-    border-radius: 50%;
-  }
-  
-  button {
-    padding: 10px 20px;
-    font-size: 18px;
-    cursor: pointer;
-    background-color: yellow;
-    border: 2px solid black;
-    border-radius: 10px;
-    margin: 10px;
-  }
-  
-  input {
-    padding: 10px;
-    font-size: 16px;
-    width: 200px;
-  }
-  
-  #result {
-    font-size: 20px;
-    margin-top: 30px;
-  }
-  
-  #roast {
-    margin-top: 10px;
-    font-style: italic;
-    color: #555;
-  }
-  
+  background: radial-gradient(circle, #111 0%, #000 100%);
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  text-align: center;
+  padding-top: 30px;
+  color: #ffd700;
+}
+
+h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+  color: #ff0000;
+  text-shadow: 2px 2px 8px #000;
+  letter-spacing: 2px;
+}
+
+canvas {
+  margin: 20px auto;
+  display: block;
+  background-color: #b30000;
+  border: 10px dashed #ffd700;
+  border-radius: 50%;
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.7);
+}
+
+button {
+  padding: 12px 30px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  background: linear-gradient(to right, #ffd700, #ffcc00);
+  color: #000;
+  border: 3px solid #ff0000;
+  border-radius: 15px;
+  margin: 15px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
+}
+
+button:hover {
+  background: linear-gradient(to right, #ffcc00, #ffd700);
+  transform: scale(1.05);
+}
+
+input {
+  padding: 10px;
+  font-size: 18px;
+  width: 240px;
+  border: 2px solid #ff0000;
+  border-radius: 10px;
+  background-color: #222;
+  color: #fff;
+  margin-top: 10px;
+}
+
+#result {
+  font-size: 26px;
+  margin-top: 40px;
+  font-weight: bold;
+  color: #00ffcc;
+  text-shadow: 1px 1px 5px #000;
+}
+
+#roast {
+  margin-top: 15px;
+  font-style: italic;
+  color: #aaa;
+  font-size: 18px;
+}
