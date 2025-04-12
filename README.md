@@ -1,9 +1,10 @@
 # Subject Roast Roulette API
 
 ## Description:
-Subject Roast Roulette API is a lighthearted and humorous backend service designed to roast engineering students based on the subjects they have to study. The API takes the name of an engineering subject, processes it with OpenAI’s Groq-powered AI, and generates a savage, humorous roast about the pain and struggle of dealing with that subject in an exam. Whether it's a tough, boring, or frustrating subject, this API provides a dark and brutally honest roast in just a few lines.
+Subject Roast Roulette API is a lighthearted and humorous backend service designed to motivate students based on the subjects they have to study. The API takes the name of an subject, processes it with OpenAI’s Groq-powered AI, and generates motivational lines. Whether it's a tough, boring, or frustrating subject, this API provides a dark and brutally honest motivational lines.
 
-This project was built with **Flask** as the backend framework, and uses **Groq's API** for AI-powered text generation. The service is designed to work seamlessly with any frontend, thanks to its use of **CORS** for cross-origin requests. The API provides an endpoint where the frontend can send a subject and get a customized roast in return.
+Access it here: [Subject-Roulette](https://sublette.netlify.app)
+
 
 ## Key Features:
 - **AI-powered subject roasts**: Generate brutal and funny subject roasts.
