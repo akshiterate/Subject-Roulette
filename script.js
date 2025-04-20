@@ -1,21 +1,136 @@
-const canvas = document.getElementById('wheelCanvas');
-const ctx = canvas.getContext('2d');
-const subjects = [];
-let currentRotation = 0;
+let subjects = [];
+const colors = ["#ffc", "#cfc", "#ccf", "#fcf", "#fcc", "#fdd", "#cdf", "#efd"];
+const canvas = document.getElementById("wheelCanvas");
+const ctx = canvas.getContext("2d");
+const radius = canvas.width / 2;
+let rotation = 0;
 let spinning = false;
 
-const colors = [
-    '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', 
-    '#FFEEAD', '#D4A5A5', '#9B9B9B', '#CE82FF'
-];
+function drawWheel() {
+    const num = subjects.length;
+    const arc = 2 * Math.PI / num;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw empty state message
+    if (num === 0) {
+        ctx.font = "bold 20px Poppins";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "#ffffff";
+        ctx.fillText("No subjects. Add some!", radius, radius);
+        return;
+    }
+
+    // Draw wheel segments
+    for (let i = 0; i < num; i++) {
+        const angle = arc * i + rotation;
+        
+        // Draw slice
+        ctx.beginPath();
+        ctx.moveTo(radius, radius);
+        ctx.fillStyle = colors[i % colors.length];
+        ctx.arc(radius, radius, radius - 5, angle, angle + arc);
+        ctx.fill();
+        
+        // Add shine effect
+        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        gradient.addColorStop(0, 'rgba(255,255,255,0.1)');
+        gradient.addColorStop(0.5, 'rgba(255,255,255,0)');
+        ctx.fillStyle = gradient;
+        ctx.fill();
+
+        // Draw text
+        ctx.save();
+        ctx.translate(radius, radius);
+        ctx.rotate(angle + arc / 2);
+        ctx.textAlign = "right";
+        ctx.fillStyle = "#000";
+        ctx.font = "bold 16px Poppins";
+        ctx.fillText(subjects[i], radius - 20, 5);
+        ctx.restore();
+    }
+}
+
+function spinWheel() {
+    if (spinning || subjects.length === 0) return;
+
+    spinning = true;
+    const spinButton = document.getElementById("spinButton");
+    spinButton.disabled = true;
+    spinButton.style.opacity = '0.5';
+    
+    document.getElementById("result").textContent = "";
+    document.getElementById("roast").textContent = "";
+
+    const extraSpins = 5;
+    const totalDegrees = Math.floor(Math.random() * 360 + 360 * extraSpins);
+    const targetRotation = (totalDegrees * Math.PI) / 180;
+
+    let duration = 3000;
+    let start = null;
+    let initialRotation = rotation;
+
+    function animate(timestamp) {
+        if (!start) start = timestamp;
+        const elapsed = timestamp - start;
+
+        let progress = Math.min(elapsed / duration, 1);
+        let easeOut = 1 - Math.pow(1 - progress, 3);
+        rotation = initialRotation + targetRotation * easeOut;
+
+        drawWheel();
+
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        } else {
+            rotation = rotation % (2 * Math.PI);
+            const selectedIndex = subjects.length - Math.floor((rotation / (2 * Math.PI)) * subjects.length) - 1;
+            const actualIndex = selectedIndex >= 0 ? selectedIndex : subjects.length - 1;
+            const selected = subjects[actualIndex];
+
+            // Show result with animation
+            const resultDiv = document.getElementById("result");
+            resultDiv.textContent = `Selected: ${selected}`;
+            resultDiv.style.animation = 'fadeIn 0.5s ease';
+
+            // Call API for roast
+            fetch('https://subject-roulette.onrender.com/api/roast', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ subject: selected })
+            })
+            .then(res => res.json())
+            .then(data => {
+                const roastDiv = document.getElementById("roast");
+                roastDiv.textContent = data.roast ? `🔥 ${data.roast}` : "Roast failed. Try again.";
+                roastDiv.style.animation = 'slideUp 0.5s ease';
+            })
+            .catch(() => {
+                document.getElementById("roast").textContent = "API Error.";
+            });
+
+            // Remove selected subject and reset
+            subjects.splice(actualIndex, 1);
+            rotation = 0;
+            drawWheel();
+            spinning = false;
+            
+            // Re-enable spin button
+            spinButton.disabled = false;
+            spinButton.style.opacity = '1';
+        }
+    }
+
+    requestAnimationFrame(animate);
+}
 
 function addSubject() {
-    const input = document.getElementById('newSubject');
-    const subject = input.value.trim();
+    const input = document.getElementById("newSubject");
+    const newSub = input.value.trim();
     
-    if (subject && !subjects.includes(subject)) {
-        subjects.push(subject);
-        input.value = '';
+    if (newSub && !subjects.includes(newSub)) {
+        subjects.push(newSub);
+        input.value = "";
         
         // Add pop animation to input
         input.classList.add('pop');
@@ -25,148 +140,10 @@ function addSubject() {
     }
 }
 
-function drawWheel() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Draw wheel background with gradient
-    const gradient = ctx.createRadialGradient(
-        canvas.width/2, canvas.height/2, 0,
-        canvas.width/2, canvas.height/2, canvas.width/2
-    );
-    gradient.addColorStop(0, '#2a2a2a');
-    gradient.addColorStop(1, '#1a1a1a');
-    
-    ctx.beginPath();
-    ctx.arc(canvas.width/2, canvas.height/2, canvas.width/2 - 10, 0, Math.PI * 2);
-    ctx.fillStyle = gradient;
-    ctx.fill();
-    
-    const sliceAngle = (Math.PI * 2) / subjects.length;
-    
-    subjects.forEach((subject, i) => {
-        ctx.save();
-        ctx.translate(canvas.width/2, canvas.height/2);
-        ctx.rotate(currentRotation + sliceAngle * i);
-        
-        // Draw slice
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.arc(0, 0, canvas.width/2 - 10, 0, sliceAngle);
-        ctx.lineTo(0, 0);
-        ctx.fillStyle = colors[i % colors.length];
-        ctx.fill();
-        
-        // Add shine effect
-        const shine = ctx.createLinearGradient(0, -canvas.width/2, 0, canvas.width/2);
-        shine.addColorStop(0, 'rgba(255,255,255,0.1)');
-        shine.addColorStop(0.5, 'rgba(255,255,255,0)');
-        ctx.fillStyle = shine;
-        ctx.fill();
-        
-        // Draw text
-        ctx.rotate(sliceAngle / 2);
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 16px Poppins';
-        ctx.textAlign = 'right';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(subject, canvas.width/2 - 30, 0);
-        
-        ctx.restore();
-    });
-}
-
-function createParticles(x, y, color) {
-    for (let i = 0; i < 20; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        document.body.appendChild(particle);
-        
-        const angle = (Math.random() * 360) * Math.PI / 180;
-        const velocity = 1 + Math.random() * 5;
-        const size = Math.random() * 8 + 4;
-        
-        particle.style.backgroundColor = color;
-        particle.style.width = size + 'px';
-        particle.style.height = size + 'px';
-        
-        const animation = particle.animate([
-            {
-                transform: `translate(${x}px, ${y}px)`,
-                opacity: 1
-            },
-            {
-                transform: `translate(${x + Math.cos(angle) * 100}px, ${y + Math.sin(angle) * 100}px)`,
-                opacity: 0
-            }
-        ], {
-            duration: 1000,
-            easing: 'cubic-bezier(0, .9, .57, 1)'
-        });
-        
-        animation.onfinish = () => particle.remove();
-    }
-}
-
-function spinWheel() {
-    if (spinning || subjects.length < 2) return;
-    
-    spinning = true;
-    const spinButton = document.querySelector('.spin-button');
-    spinButton.disabled = true;
-    spinButton.style.opacity = '0.5';
-    
-    const spinDuration = 4000;
-    const spins = 5 + Math.random() * 5;
-    const finalAngle = Math.PI * 2 * spins;
-    const startTime = performance.now();
-    
-    function animate(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / spinDuration, 1);
-        
-        // Easing function for smooth deceleration
-        const easing = 1 - Math.pow(1 - progress, 3);
-        currentRotation = easing * finalAngle;
-        
-        drawWheel();
-        
-        if (progress < 1) {
-            requestAnimationFrame(animate);
-        } else {
-            spinning = false;
-            spinButton.disabled = false;
-            spinButton.style.opacity = '1';
-            
-            // Calculate winner
-            const sliceAngle = Math.PI * 2 / subjects.length;
-            const normalizedRotation = currentRotation % (Math.PI * 2);
-            const winningIndex = subjects.length - Math.floor(normalizedRotation / sliceAngle) - 1;
-            const winner = subjects[winningIndex % subjects.length];
-            
-            // Display result with animation
-            const resultDiv = document.getElementById('result');
-            resultDiv.textContent = `🎉 ${winner} 🎉`;
-            resultDiv.style.animation = 'none';
-            resultDiv.offsetHeight; // Trigger reflow
-            resultDiv.style.animation = 'fadeIn 0.5s ease';
-            
-            // Create celebration particles
-            const rect = canvas.getBoundingClientRect();
-            createParticles(
-                rect.left + rect.width/2,
-                rect.top + rect.height/2,
-                colors[winningIndex % colors.length]
-            );
-        }
-    }
-    
-    requestAnimationFrame(animate);
-}
-
-// Initial wheel draw
+// Initialize wheel
 drawWheel();
 
 // Add keyboard support
-document.getElementById('newSubject').addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') addSubject();
+document.getElementById("newSubject").addEventListener("keypress", (e) => {
+    if (e.key === "Enter") addSubject();
 });
