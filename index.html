@@ -1,25 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" href="style.css">
-  <title>Subject Roulette</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subject Roulette</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="container">
+        <h1 class="glow-text">🎡 Subject Roulette 🎯</h1>
 
-  <h1>🎡 Subject Roulette 🎯</h1>
+        <div class="input-group">
+            <input id="newSubject" placeholder="Enter a subject..." autocomplete="off" />
+            <button onclick="addSubject()" class="btn-add">Add Subject</button>
+        </div>
 
-  <input id="newSubject" placeholder="Add new subject" />
-  <button onclick="addSubject()">Add</button>
+        <div class="wheel-container">
+            <canvas id="wheelCanvas" width="400" height="400"></canvas>
+            <div class="glow-ring"></div>
+            <button onclick="spinWheel()" class="btn-spin pulse">SPIN THE WHEEL</button>
+        </div>
 
-  <div id="result"></div>
-  <div id="roast"></div>
+        <div class="results-container">
+            <div id="result" class="slide-up"></div>
+            <div id="roast" class="fade-in"></div>
+        </div>
+    </div>
 
-  <canvas id="wheelCanvas" width="400" height="400"></canvas>
-  <button onclick="spinWheel()">SPIN</button>
-
-  <script src="script.js"></script>
-
+    <script src="script.js"></script>
 </body>
 </html>
