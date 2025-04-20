@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Subject Roulette</title>
-  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <h1>🎡 Subject Roulette 🎯</h1>
 
-  <div class="input-container">
-    <input id="newSubject" placeholder="Add new subject" />
-    <button onclick="addSubject()" class="add-btn">Add</button>
-  </div>
-  
-  <canvas id="wheelCanvas" width="400" height="400"></canvas>
-
-  <button onclick="spinWheel()" class="spin-btn" id="spinButton">SPIN</button>
+  <input id="newSubject" placeholder="Add new subject" />
+  <button onclick="addSubject()">Add</button>
 
   <div id="result"></div>
   <div id="roast"></div>
 
+  <canvas id="wheelCanvas" width="400" height="400"></canvas>
+  <button onclick="spinWheel()">SPIN</button>
+
   <script src="script.js"></script>
+
 </body>
 </html>
