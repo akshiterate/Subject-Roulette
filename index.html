@@ -9,17 +9,17 @@
 
   <h1>🎡 Subject Roulette 🎯</h1>
 
-  <div>
+  <div class="input-container">
     <input id="newSubject" placeholder="Add new subject" />
-    <button onclick="addSubject()">Add</button>
+    <button onclick="addSubject()" class="add-btn">Add</button>
   </div>
   
-  <div id="result"></div>
-  <div id="roast"></div>
-
   <canvas id="wheelCanvas" width="400" height="400"></canvas>
 
-  <button onclick="spinWheel()">SPIN</button>
+  <button onclick="spinWheel()" class="spin-btn" id="spinButton">SPIN</button>
+
+  <div id="result"></div>
+  <div id="roast"></div>
 
   <script src="script.js"></script>
 </body>
