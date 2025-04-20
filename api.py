@@ -32,15 +32,16 @@ def roast_subject():
     if not subject:
         return jsonify({"error": "No subject provided"}), 400
 
-prompt = f"""As an engineering student (use this only to interpret the subject’s engineering context), I spun a roulette wheel and landed on {subject}. I’m doomed to study this nightmare for my theory exam. You’re a ruthless, unhinged comedian tasked with roasting me into oblivion for this cursed choice. Unleash a brutal, darkly funny, apocalyptic-level burn that makes my suffering epic. Keep it 1–2 lines, but go feral—think end-of-the-world savage. Max out the chaos without breaking the universe."""
+prompt = f"""I spun a roulette wheel and landed on {subject}, a topic so cursed it’s my personal doomsday for this exam. You’re a deranged, apocalyptic comedian who thrives on obliterating souls with dark humor. Roast me into cosmic ashes with a 1–2 line burn so unhinged, savage, and hilariously brutal it feels like the universe is cackling at my torment. Go full chaos—make my pain a legend, but don’t break reality."""
     try:
         response = client.chat.completions.create(
-            model="llama3-70b-8192",
+            model="mixtral-8x7b-32768",
             messages=[
                 {"role": "user", "content": prompt}
             ],
-            temperature=0.9,
-            max_tokens=100,
+            temperature=1.1,
+            top_p=0.95,
+            max_tokens=50,
         )
         roast = response.choices[0].message.content
         return jsonify({"roast": roast.strip()})
