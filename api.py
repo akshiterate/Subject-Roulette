@@ -5,9 +5,8 @@ from flask_cors import CORS
 import logging
 from openai import OpenAI
 
-# App setup
 app = Flask(__name__)
-CORS(app)  # Allow frontend to talk to this backend
+CORS(app) 
 
 # Logging
 logging.basicConfig(level=logging.INFO)
@@ -21,7 +20,7 @@ client = OpenAI(
 
 @app.route("/", methods=["GET"])
 def home():
-    return "🎡 Subject Roast API is running!"
+    return "Subject Roast API is running!"
 
 @app.route("/api/roast", methods=["POST"])
 def roast_subject():
